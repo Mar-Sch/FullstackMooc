@@ -1,0 +1,24 @@
+{
+  "persons": [
+    {
+      "id": 1,
+      "name": "Arto Hellas",
+      "number": "0500342152"
+    },
+    {
+      "id": 2,
+      "name": "Marco Schaafsma",
+      "number": "0404343242152"
+    },
+    {
+      "id": 3,
+      "name": "James Bond",
+      "number": "007"
+    },
+    {
+      "id": 4,
+      "name": "Yeah Yeah Yeah",
+      "number": "2342342432"
+    }
+  ]
+}

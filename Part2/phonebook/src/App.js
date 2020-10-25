@@ -1,28 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DisplayFilter from './Components/DisplayFilter';
 import DisplayPhonebook from './Components/DisplayPhonebook';
 import PersonForm from './Components/PersonForm';
-
-
+import axios from 'axios'
 
 const App = () => {
-    const [persons, setPersons] = useState([
-        {
-            id: 1,
-            name: 'Arto Hellas',
-            number: '0500342152',
-        },
-        {
-            id: 2,
-            name: 'Marco Schaafsma',
-            number: '0404343242152',
-        },
-        {
-            id: 3,
-            name: 'James Bond',
-            number: '007',
-        }
-    ])
+    const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newPhoneNumber, setNewPhoneNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
@@ -30,6 +13,14 @@ const App = () => {
     const handleFilter = (event) => {
         setNewFilter(event.target.value)
     }
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                setPersons(response.data)
+            })
+    }, [])
 
     return (
         <div>
