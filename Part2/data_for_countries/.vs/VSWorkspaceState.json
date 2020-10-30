@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components"
+    "\\src\\Components"
   ],
-  "SelectedNode": "\\db.json",
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

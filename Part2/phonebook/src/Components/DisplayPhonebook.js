@@ -13,7 +13,7 @@ const DisplayPhonebook = ({ persons, check }) => {
         <div>
             <h2>Numbers</h2>
             {list.map(person =>
-                <Person key={person.id} name={person.name} number={person.number}/> )}  
+                <Person key={person.id} name={person.name} number={person.number} />)}
         </div>
     )
 }
