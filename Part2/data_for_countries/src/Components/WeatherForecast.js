@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-
 const WeatherForecast = ({ capital }) => {
 
     const [forecast, setForecast] = useState([])
@@ -22,7 +21,6 @@ const WeatherForecast = ({ capital }) => {
             })
     }, [])
 
-
     if (forecast.length === 0) {
         return (
             <div>Loading</div>
@@ -39,8 +37,6 @@ const WeatherForecast = ({ capital }) => {
             </div>
         )
     }
-
-
 }
 
 export default WeatherForecast
