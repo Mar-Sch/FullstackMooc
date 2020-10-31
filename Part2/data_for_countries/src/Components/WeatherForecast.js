@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+
 const WeatherForecast = ({ capital }) => {
 
     const [forecast, setForecast] = useState([])
-    let api_key = process.env.REACT_APP_API_KEY
-    //let api_key = process.env.REACT_APP_API_KEY
 
     useEffect(() => {
         console.log('effect')
         axios
             .get('http://api.weatherstack.com/current', {
                 params: {
-                    access_key: 'ADD ACCESS KEY',
+                    access_key: process.env.REACT_APP_API_KEY,
                     query: { capital }
                 }
             })
             .then(response => {
                 console.log('Forecast promise fulfilled')
                 console.log(response)
-                console.log('apikey', { api_key })
                 setForecast(response.data)
             })
     }, [])

@@ -2,7 +2,7 @@ import React from 'react'
 import Country from './Country';
 import CountryList from './CountryList';
 
-const DisplayCountry = ({ countries, filter }) => {
+const DisplayCountry = ({ countries, filter, handleShowButton}) => {
     let countryList = []
     countryList = countries.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()))
 
@@ -16,7 +16,7 @@ const DisplayCountry = ({ countries, filter }) => {
     } else if (countryList.length <= 10) {
         return (
             <div>
-                <CountryList countries={countryList} />
+                <CountryList countries={countryList} handleShowButton={handleShowButton} />
             </div>
         )
     } else if (countryList.length < countries.length) {

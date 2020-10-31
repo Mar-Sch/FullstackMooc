@@ -14,7 +14,6 @@ const CountryList = ({ countries, handleShowButton }) => {
                     &nbsp;
                     <button onClick={() =>
                         console.log('clicked')}
-                     
                     >
                         Show
                     </button>
