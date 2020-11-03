@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components"
+    "\\src\\components",
+    "\\src\\services"
   ],
-  "SelectedNode": "\\db.json",
+  "SelectedNode": "\\src\\services\\notes.js",
   "PreviewInSolutionExplorer": false
 }

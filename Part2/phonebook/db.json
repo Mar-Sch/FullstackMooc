@@ -8,17 +8,12 @@
     {
       "id": 2,
       "name": "Marco Schaafsma",
-      "number": "0404343242152"
-    },
-    {
-      "id": 3,
-      "name": "James Bond",
-      "number": "007"
+      "number": "1111111"
     },
     {
       "id": 4,
-      "name": "Yeah Yeah Yeah",
-      "number": "2342342432"
+      "name": "Marco 2",
+      "number": "2222222"
     }
   ]
 }

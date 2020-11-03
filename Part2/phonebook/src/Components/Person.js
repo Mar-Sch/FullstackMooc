@@ -1,8 +1,14 @@
 import React from 'react'
 
-const Person = ({ name, number }) => {
+const Person = ({ name, number, remove }) => {
     return (
-        <p>{name} {number}</p>
+        <p>{name} {number}
+            &nbsp;
+            <button
+                onClick={remove}>
+                {'Delete'}
+            </button>
+        </p>
     )
 }
 

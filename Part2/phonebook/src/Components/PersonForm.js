@@ -1,4 +1,6 @@
 import React from 'react'
+import personService from '../Services/Persons'
+
 
 const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, setNewPhoneNumber }) => {
 
@@ -6,16 +8,33 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, 
         event.preventDefault()
         let personsNames = persons.map((person) => person.name)
         if (personsNames.includes(newName)) {
-            window.alert(`${newName} is already added to the phonebook`)
-        }
+            if (window.confirm("Contact is already in the phonebook. Do you want to replace?")) {
+                const objectToUpdate = persons.find(object => object.name === newName)
+                const updatedObject = {
+                    id: objectToUpdate.id,
+                    name: objectToUpdate.name,
+                    number: newPhoneNumber
+                }
+                personService
+                    .update(objectToUpdate.id, updatedObject)
+                    .then(response => {
+                        setPersons(persons.map(person => person.id !== updatedObject.id ? person : response.data))
+                    })
+            }
+        }       
+        
         else {
             const nameObject = {
                 id: persons.length + 1,
                 name: newName,
                 number: newPhoneNumber
             }
-            console.log('Hallo', nameObject.id)
-            setPersons(persons.concat(nameObject))
+            personService
+                .addNew(nameObject)
+                .then(response => {
+                    console.log(response)
+                    setPersons(persons.concat(response.data))                    
+                })            
         }
         setNewName('')
         setNewPhoneNumber('')
@@ -28,9 +47,6 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, 
     const handleNewNameChange = (event) => {
         setNewName(event.target.value)
     }
-
-
-
 
     return (
         <div>

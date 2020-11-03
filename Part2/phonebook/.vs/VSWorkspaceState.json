@@ -2,7 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\Components"
+    "\\src\\Components",
+    "\\src\\Services"
   ],
   "SelectedNode": "\\db.json",
   "PreviewInSolutionExplorer": false

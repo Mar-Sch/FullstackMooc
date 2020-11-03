@@ -2,33 +2,31 @@ import React from 'react'
 
 const CountryList = ({ countries, handleShowButton }) => {
 
-    const resetFilter = (props) => handleShowButton('Netherlands')
-        
     return (
-        <div>
-            {countries.map((country) =>                
-                <p key={country.callingCodes}>
-                    {country.name}                    
-                    &nbsp;     
-
- 
-                    <Button
-                        handleClick={resetFilter}
-                        text='show'
-                    />
-                    
-                </p>)} 
+        <div>            
+            {countries.map((country) =>
+                <CountryListItem
+                    key={country.callingCodes}
+                    country={country}
+                    handleShowButton={() => handleShowButton(country.name)}
+                />)}
         </div>
     )
-
 }
 
-const Button = (props) => {
+const CountryListItem = ({ country, handleShowButton }) => {
+    const countryName = country.name
+
     return (
-        <button onClick={props.handleClick}>
-            {props.text}
-        </button>
+        <p>{countryName}
+            &nbsp;
+            <button
+                onClick={handleShowButton}>
+                {'show'}
+            </button>
+        </p>
     )
-}   
+}
+
 
 export default CountryList
