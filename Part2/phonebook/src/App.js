@@ -18,11 +18,59 @@ const App = () => {
         setNewFilter(event.target.value)
     }
 
+    const handleNameChange = (event) => {
+        setNewName(event.target.value)
+    }
+
+    const handlePhoneNrChange = (event) => {
+        setNewPhoneNumber(event.target.value)
+    }
+
+    const addNew = (event) => {
+        event.preventDefault()
+        let personsNames = persons.map((person) => person.name)
+        if (personsNames.includes(newName)) {
+            if (window.confirm("Contact is already in the phonebook. Do you want to replace?")) {
+                const objectToUpdate = persons.find(object => object.name === newName)
+                const updatedObject = {
+                    id: objectToUpdate.id,
+                    name: objectToUpdate.name,
+                    number: newPhoneNumber
+                }
+                personService
+                    .update(objectToUpdate.id, updatedObject)
+                    .then(response => {
+                        setPersons(persons.map(person => person.id !== updatedObject.id ? person : response.data))
+                        handleNotificationMessage([`${updatedObject.name} successfully updated`, 'notification'])
+                    })
+                    .catch(error => {
+                        console.log('fail')
+                        handleNotificationMessage([`${updatedObject.name} cannot be found`, 'error'])
+                    })
+            }
+        }
+        else {
+            const newObject = {
+                id: persons.length + 1,
+                name: newName,
+                number: newPhoneNumber
+            }
+            console.log(newObject)
+            personService
+                .addNew(newObject)
+                .then(response => {
+                    setPersons(persons.concat(response.data))
+                    handleNotificationMessage([`${newObject.name} successfully added`, 'notification'])
+                    setNewName('')
+                    setNewPhoneNumber('')
+                })
+        }
+    }
+
     const handleNotificationMessage = (message) => {
         const messageToShow = message[0]
         const withClassName = message[1]
         setNotificationMessage([messageToShow, withClassName])
-        console.log('do we get the right message', notificationMessage)
         setTimeout(() => { setNotificationMessage([]) }, 5000)
     }
 
@@ -52,14 +100,11 @@ const App = () => {
             <Notification message={notificationMessage[0]} className={notificationMessage[1]} />
             <DisplayFilter newFilter={newFilter} handleFilter={handleFilter} />
             <PersonForm
-                persons={persons}
-                setPersons={setPersons}
                 newName={newName}
-                setNewName={setNewName}
                 newPhoneNumber={newPhoneNumber}
-                setNewPhoneNumber={setNewPhoneNumber}
-                notificationMessage={notificationMessage}
-                handleNotificationMessage={handleNotificationMessage}
+                handleNewPhoneNumber={handlePhoneNrChange}
+                handleNewNameChange={handleNameChange}
+                addNew={addNew}
             />
             <DisplayPhonebook persons={persons} check={newFilter} removeContact={removeContact} />
         </div>
