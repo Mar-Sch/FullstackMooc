@@ -11,10 +11,19 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newPhoneNumber, setNewPhoneNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
-    const [notificationMessage, setNotificationMessage] = useState(null)
+    const [notificationMessage, setNotificationMessage] = useState([])
+
 
     const handleFilter = (event) => {
         setNewFilter(event.target.value)
+    }
+
+    const handleNotificationMessage = (message) => {
+        const messageToShow = message[0]
+        const withClassName = message[1]
+        setNotificationMessage([messageToShow, withClassName])
+        console.log('do we get the right message', notificationMessage)
+        setTimeout(() => { setNotificationMessage([]) }, 5000)
     }
 
     const removeContact = (id) => {
@@ -40,7 +49,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={notificationMessage} />
+            <Notification message={notificationMessage[0]} className={notificationMessage[1]} />
             <DisplayFilter newFilter={newFilter} handleFilter={handleFilter} />
             <PersonForm
                 persons={persons}
@@ -50,7 +59,7 @@ const App = () => {
                 newPhoneNumber={newPhoneNumber}
                 setNewPhoneNumber={setNewPhoneNumber}
                 notificationMessage={notificationMessage}
-                setNotificationMessage={setNotificationMessage}
+                handleNotificationMessage={handleNotificationMessage}
             />
             <DisplayPhonebook persons={persons} check={newFilter} removeContact={removeContact} />
         </div>

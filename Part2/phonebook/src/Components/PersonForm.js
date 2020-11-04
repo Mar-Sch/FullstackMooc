@@ -2,7 +2,7 @@ import React from 'react'
 import personService from '../Services/Persons'
 
 
-const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, setNewPhoneNumber, setNotificationMessage }) => {
+const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, setNewPhoneNumber, handleNotificationMessage }) => {
 
     const addNew = (event) => {
         event.preventDefault()
@@ -19,8 +19,8 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, 
                     .update(objectToUpdate.id, updatedObject)
                     .then(response => {
                         setPersons(persons.map(person => person.id !== updatedObject.id ? person : response.data))
-                        setNotificationMessage(`${updatedObject.name} successfully updated`)
-                        setTimeout(() => { setNotificationMessage(null) }, 5000)
+                        //adding a notification, first write the message to be shown to user, second the className
+                        handleNotificationMessage([`${updatedObject.name} successfully updated`, 'notification'])                   
                     })
             }
         }       
@@ -36,9 +36,9 @@ const PersonForm = ({ persons, setPersons, newName, setNewName, newPhoneNumber, 
                 .then(response => {
                     console.log(response)
                     setPersons(persons.concat(response.data))
-                    setNotificationMessage(`${response.data.name} successfully added`)
-                    setTimeout(() => {setNotificationMessage(null)}, 5000)
-                })            
+                    //adding a notification, first write the message to be shown to user, second the className
+                    handleNotificationMessage([`${response.data.name} successfully added`, 'notification'])
+                })
         }
         setNewName('')
         setNewPhoneNumber('')
