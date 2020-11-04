@@ -30,6 +30,7 @@ const App = () => {
         event.preventDefault()
         let personsNames = persons.map((person) => person.name)
         if (personsNames.includes(newName)) {
+            //if the contact is already in the phonebook, the user can update the contact phonenumber
             if (window.confirm("Contact is already in the phonebook. Do you want to replace?")) {
                 const objectToUpdate = persons.find(object => object.name === newName)
                 const updatedObject = {
@@ -42,10 +43,13 @@ const App = () => {
                     .then(response => {
                         setPersons(persons.map(person => person.id !== updatedObject.id ? person : response.data))
                         handleNotificationMessage([`${updatedObject.name} successfully updated`, 'notification'])
+                        setNewName('')
+                        setNewPhoneNumber('')
                     })
                     .catch(error => {
                         console.log('fail')
                         handleNotificationMessage([`${updatedObject.name} cannot be found`, 'error'])
+                        setPersons(persons.filter(n => n.id !== updatedObject.id))
                     })
             }
         }
