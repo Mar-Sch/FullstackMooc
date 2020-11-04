@@ -10,6 +10,4 @@ const DisplayFilter = ({ newFilter, handleFilter }) => {
     )
 }
 
-
-
 export default DisplayFilter

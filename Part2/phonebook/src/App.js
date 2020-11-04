@@ -54,8 +54,9 @@ const App = () => {
             }
         }
         else {
+            const maxID = persons.reduce((prev, current) => (prev.id > current.id) ? prev : current)
             const newObject = {
-                id: persons.length + 1,
+                id: maxID.id + 1,
                 name: newName,
                 number: newPhoneNumber
             }

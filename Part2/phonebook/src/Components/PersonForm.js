@@ -1,10 +1,6 @@
 import React from 'react'
 
-
-
 const PersonForm = ({ addNew, newName, newPhoneNumber, handleNewNameChange, handleNewPhoneNumber }) => {
-
-
 
     return (
         <div>
