@@ -69,6 +69,10 @@ const App = () => {
                     setNewName('')
                     setNewPhoneNumber('')
                 })
+                .catch(error => {
+                    handleNotificationMessage([`${error.response.data.error}`, 'error'])   
+                    console.log(error.response.data)
+                })
         }
     }
 
