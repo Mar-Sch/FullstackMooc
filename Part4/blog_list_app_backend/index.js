@@ -4,6 +4,10 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
+var morgan = require('morgan')
+
+app.use(morgan('tiny'))
+
 
 const blogSchema = new mongoose.Schema({
     title: String,
