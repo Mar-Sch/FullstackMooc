@@ -5,6 +5,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
 var morgan = require('morgan')
+const logger = require('./utils/logger')
 
 app.use(morgan('tiny'))
 
@@ -20,6 +21,12 @@ const Blog = mongoose.model('Blog', blogSchema)
 
 const mongoUrl = process.env.MONGODB_URI
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+    .then(() => {
+        logger.info('connected to MongoDB')
+    })
+    .catch((error) => {
+        logger.error('error connecting to MongoDB:', error.message)
+    })
 
 app.use(cors())
 app.use(express.json())
@@ -45,5 +52,5 @@ app.post('/api/blogs', (request, response) => {
 const PORT = process.env.PORT || 3003
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+    logger.info(`Server running on port ${PORT}`)
 })
