@@ -21,6 +21,12 @@ test('blogs are returned as json', async () => {
         .expect('Content-Type', /application\/json/)
 })
 
+test('unknown endpoint returns 404', async () => {
+    await api
+        .get('/api/invalid')
+        .expect(404)
+})
+
 test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
 
@@ -63,6 +69,40 @@ test('A valid blog post is saved to the DB', async () => {
 
     expect(contents).toHaveLength(blogData.initialBlogs.length + 1)
     expect(contents).toContain('Just a single blog')
+})
+
+test('If the likes property is missing from a post request, it will set it to default value 0', async () => {
+    const newBlog = {
+        title: 'Missing likes property',
+        author: 'Marco Schaafsma',
+        url: 'http://www.google.com'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+
+    const response = await api.get('/api/blogs')
+    const addedBlog = response.body[2]
+
+    expect(addedBlog.likes).toBe(0)
+
+})
+
+test('Missing title and URL in a post request, will return status 400 Bad Request', async () => {
+    const newBlog = {
+        author: 'Marco Schaafsma',
+        likes: 1
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
 })
 
 afterAll(() => {
