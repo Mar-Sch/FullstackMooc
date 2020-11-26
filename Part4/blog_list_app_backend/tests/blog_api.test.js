@@ -14,95 +14,99 @@ beforeEach(async () => {
     await blogObject.save()
 })
 
-test('blogs are returned as json', async () => {
-    await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
-})
+describe('Making sure that data fetching works correctly', () => {
+    test('blogs are returned as json', async () => {
+        await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
 
-test('unknown endpoint returns 404', async () => {
-    await api
-        .get('/api/invalid')
-        .expect(404)
-})
+    test('unknown endpoint returns 404', async () => {
+        await api
+            .get('/api/invalid')
+            .expect(404)
+    })
 
-test('all blogs are returned', async () => {
-    const response = await api.get('/api/blogs')
+    test('all blogs are returned', async () => {
+        const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(blogData.initialBlogs.length)
-})
+        expect(response.body).toHaveLength(blogData.initialBlogs.length)
+    })
 
-test('right content is returned', async () => {
-    const response = await api.get('/api/blogs')
+    test('right content is returned', async () => {
+        const response = await api.get('/api/blogs')
 
-    const contents = response.body.map(r => r.title)
-    expect(contents).toContain(
-        'Go To Statement Considered Harmful'
+        const contents = response.body.map(r => r.title)
+        expect(contents).toContain(
+            'Go To Statement Considered Harmful'
         )
+    })
+
+    test('the id property of the blog object has the correct format', async () => {
+        const response = await api.get('/api/blogs')
+
+        expect(response.body[0]).toHaveProperty('id')
+        expect(response.body[0]).not.toHaveProperty('_id')
+
+    })
 })
 
-test('the id property of the blog object has the correct format', async () => {
-    const response = await api.get('/api/blogs')
+describe('We are able to post a valid new blog', () => {
+    test('A valid blog post is saved to the DB', async () => {
+        const newBlog = {
+            title: 'Just a single blog',
+            author: 'Marco Schaafsma',
+            url: 'http://www.google.com',
+            likes: 1
+        }
 
-    expect(response.body[0]).toHaveProperty('id')
-    expect(response.body[0]).not.toHaveProperty('_id')
-    
-})
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
 
-test('A valid blog post is saved to the DB', async () => {
-    const newBlog = {
-        title: 'Just a single blog',
-        author: 'Marco Schaafsma',
-        url: 'http://www.google.com',
-        likes: 1
-    }
+        const response = await api.get('/api/blogs')
+        const contents = response.body.map(r => r.title)
 
-    await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
+        expect(contents).toHaveLength(blogData.initialBlogs.length + 1)
+        expect(contents).toContain('Just a single blog')
+    })
 
-    const response = await api.get('/api/blogs')
-    const contents = response.body.map(r => r.title)
+    test('If the likes property is missing from a post request, it will set it to default value 0', async () => {
+        const newBlog = {
+            title: 'Missing likes property',
+            author: 'Marco Schaafsma',
+            url: 'http://www.google.com'
+        }
 
-    expect(contents).toHaveLength(blogData.initialBlogs.length + 1)
-    expect(contents).toContain('Just a single blog')
-})
-
-test('If the likes property is missing from a post request, it will set it to default value 0', async () => {
-    const newBlog = {
-        title: 'Missing likes property',
-        author: 'Marco Schaafsma',
-        url: 'http://www.google.com'
-    }
-
-    await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
 
 
-    const response = await api.get('/api/blogs')
-    const addedBlog = response.body[2]
+        const response = await api.get('/api/blogs')
+        const addedBlog = response.body[2]
 
-    expect(addedBlog.likes).toBe(0)
+        expect(addedBlog.likes).toBe(0)
 
-})
+    })
 
-test('Missing title and URL in a post request, will return status 400 Bad Request', async () => {
-    const newBlog = {
-        author: 'Marco Schaafsma',
-        likes: 1
-    }
+    test('Missing title and URL in a post request, will return status 400 Bad Request', async () => {
+        const newBlog = {
+            author: 'Marco Schaafsma',
+            likes: 1
+        }
 
-    await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(400)
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
 
+    })
 })
 
 afterAll(() => {
