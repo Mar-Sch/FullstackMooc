@@ -125,6 +125,25 @@ describe('We are able to delete a blog', () => {
 })
 
 
+describe('We are able to update a blog', () => {
+    test('We can change the amount of likes', async () => {
+
+        const response = await api.get('/api/blogs').expect(200)
+
+        const blogToUpdate = {
+            title: response.body[0].title,
+            author: response.body[0].author,
+            url: response.body[0].url,
+            likes: 5000
+        }
+         
+        await api
+            .put(`/api/blogs/${response.body[0].id}`)
+            .send(blogToUpdate)
+            .expect(200)
+    })
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
