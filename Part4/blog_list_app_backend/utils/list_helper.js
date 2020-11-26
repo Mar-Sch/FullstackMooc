@@ -1,4 +1,4 @@
-const blog = require("../models/blog")
+const Blog = require("../models/blog")
 
 const dummy = (blogs) => {
     return 1
@@ -20,6 +20,8 @@ const favoriteBlog = (blogs) => {
         "likes": favorite.likes
     }        
 }
+
+
 
 module.exports = {
     dummy,

@@ -4,6 +4,7 @@ const app = require('../app')
 const blog = require('../models/blog')
 const blogData = require('./test_data')
 
+
 const api = supertest(app)
 
 beforeEach(async () => {
@@ -108,6 +109,21 @@ describe('We are able to post a valid new blog', () => {
 
     })
 })
+
+describe('We are able to delete a blog', () => {
+    test('Successfull deletion of blog', async () => {
+
+        const response = await api.get('/api/blogs').expect(200)
+        expect(response.body[0]).toHaveProperty('id')
+
+        const blogToDelete = response.body[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+    })
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
