@@ -61,7 +61,8 @@ describe('We are able to post a valid new blog', () => {
             title: 'Just a single blog',
             author: 'Marco Schaafsma',
             url: 'http://www.google.com',
-            likes: 1
+            likes: 1,
+            userId: "5fc15f66ea7c4a36d0a14b39"
         }
 
         await api
@@ -81,7 +82,8 @@ describe('We are able to post a valid new blog', () => {
         const newBlog = {
             title: 'Missing likes property',
             author: 'Marco Schaafsma',
-            url: 'http://www.google.com'
+            url: 'http://www.google.com',
+            userId: "5fc15f66ea7c4a36d0a14b39"
         }
 
         await api
@@ -101,7 +103,8 @@ describe('We are able to post a valid new blog', () => {
     test('Missing title and URL in a post request, will return status 400 Bad Request', async () => {
         const newBlog = {
             author: 'Marco Schaafsma',
-            likes: 1
+            likes: 1,
+            userId: "5fc15f66ea7c4a36d0a14b39"
         }
 
         await api
