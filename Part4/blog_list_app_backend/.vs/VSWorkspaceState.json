@@ -1,10 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\build",
     "\\controllers",
     "\\models",
+    "\\tests",
     "\\utils"
   ],
-  "SelectedNode": "\\app.js",
+  "SelectedNode": "\\utils\\list_helper.js",
   "PreviewInSolutionExplorer": false
 }

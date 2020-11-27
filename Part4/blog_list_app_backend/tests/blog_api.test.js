@@ -3,6 +3,8 @@ const supertest = require('supertest')
 const app = require('../app')
 const blog = require('../models/blog')
 const blogData = require('./test_data')
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
 
 const api = supertest(app)
@@ -143,6 +145,26 @@ describe('We are able to update a blog', () => {
             .expect(200)
     })
 })
+
+describe('we are able to create new users', () => {
+    test('creation of new user in empty DB', async () => {
+        await User.deleteMany({})
+
+        const newUser = {
+            username: 'marcos',
+            name: 'Marcos diMaria',
+            password: 'secret',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+    })
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
