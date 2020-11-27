@@ -3,7 +3,6 @@ const supertest = require('supertest')
 const app = require('../app')
 const blog = require('../models/blog')
 const blogData = require('./test_data')
-const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const helper = require('./test_helper')
 
@@ -147,7 +146,7 @@ describe('We are able to update a blog', () => {
     })
 })
 
-describe('we are able to create new users', () => {
+describe('we are able to create only valid new users', () => {
     test('creation of new user in empty DB', async () => {
         await User.deleteMany({})
         const usersAtStart = await helper.usersInDb()
@@ -170,6 +169,45 @@ describe('we are able to create new users', () => {
         const usernames = usersAtEnd.map(u => u.username)
         expect(usernames).toContain(newUser.username)
 
+    })
+
+    test('we cannot add a user with the same username twice', async () => {
+        const newUser = {
+            username: 'marcos',
+            name: 'marco diSanto',
+            password: 'secret',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+    })
+
+    test('new user with too short password is giving status code 400 bad request', async () => {
+        const newUser = {
+            username: 'james',
+            name: 'James Bond',
+            password: 'se',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+    })
+
+    test('new user with too short username is giving status code 400 bad request', async () => {
+        const newUser = {
+            username: 'j',
+            name: 'James Bond',
+            password: 'secret',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
     })
 })
 
