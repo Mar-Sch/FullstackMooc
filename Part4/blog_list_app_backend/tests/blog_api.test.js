@@ -5,6 +5,7 @@ const blog = require('../models/blog')
 const blogData = require('./test_data')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const helper = require('./test_helper')
 
 
 const api = supertest(app)
@@ -149,6 +150,7 @@ describe('We are able to update a blog', () => {
 describe('we are able to create new users', () => {
     test('creation of new user in empty DB', async () => {
         await User.deleteMany({})
+        const usersAtStart = await helper.usersInDb()
 
         const newUser = {
             username: 'marcos',
@@ -161,6 +163,12 @@ describe('we are able to create new users', () => {
             .send(newUser)
             .expect(200)
             .expect('Content-Type', /application\/json/)
+
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+
+        const usernames = usersAtEnd.map(u => u.username)
+        expect(usernames).toContain(newUser.username)
 
     })
 })
