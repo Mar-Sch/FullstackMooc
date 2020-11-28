@@ -7,6 +7,6 @@
     "\\tests",
     "\\utils"
   ],
-  "SelectedNode": "\\models\\blog.js",
+  "SelectedNode": "\\tests\\blog_api.test.js",
   "PreviewInSolutionExplorer": false
 }
