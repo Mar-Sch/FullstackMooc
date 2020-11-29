@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\build",
     "\\controllers",
     "\\models",
     "\\tests",
     "\\utils"
   ],
-  "SelectedNode": "\\tests\\blog_api.test.js",
+  "SelectedNode": "\\.env",
   "PreviewInSolutionExplorer": false
 }
