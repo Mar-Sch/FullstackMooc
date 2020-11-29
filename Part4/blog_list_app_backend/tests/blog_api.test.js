@@ -3,19 +3,64 @@ const supertest = require('supertest')
 const app = require('../app')
 const blog = require('../models/blog')
 const blogData = require('./test_data')
-const User = require('../models/user')
+const user = require('../models/user')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
 
 
 const api = supertest(app)
 
+/*
+beforeAll(async () => {
+    await user.deleteMany({})
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash('willem', saltRounds)
+
+    const newUser = [
+        {
+            username: 'willem',
+            name: 'Willen van Oranje',
+            passwordHash
+        }
+    ]
+    let userObject = new user(newUser)
+    await userObject.save()
+})
+*/
+
 beforeEach(async () => {
+    
+    await user.deleteMany({})
+
+    const newUser = 
+        {
+            username: 'willem',
+            name: 'Willen van Oranje',
+            password: 'willem'
+        }
+        
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(newUser.password, saltRounds)
+        
+    const dbUser = {
+        username: newUser.username,
+        name: newUser.name,
+        passwordHash,
+    }
+    
+    let userObject = new user(dbUser)
+    await userObject.save()
+    
     await blog.deleteMany({})
     let blogObject = new blog(blogData.initialBlogs[0])
     await blogObject.save()
     blogObject = new blog(blogData.initialBlogs[1])
     await blogObject.save()
+
+
 })
+
 
 describe('Making sure that data fetching works correctly', () => {
     test('blogs are returned as json', async () => {
@@ -56,17 +101,32 @@ describe('Making sure that data fetching works correctly', () => {
 })
 
 describe('We are able to post a valid new blog', () => {
+  
     test('A valid blog post is saved to the DB', async () => {
+        //login
+        let token = null
+        const user = [{
+            username: 'willem',
+            password: 'willem'
+        }]
+
+        await api
+            .post('api/login')
+            .send(user)
+            .then((res) => {
+                return (token = res.body.token)
+            })
+
         const newBlog = {
             title: 'Just a single blog',
             author: 'Marco Schaafsma',
             url: 'http://www.google.com',
-            likes: 1,
-            userId: "5fc15f66ea7c4a36d0a14b39"
+            likes: 1
         }
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -151,7 +211,7 @@ describe('We are able to update a blog', () => {
 
 describe('we are able to create only valid new users', () => {
     test('creation of new user in empty DB', async () => {
-        await User.deleteMany({})
+        await user.deleteMany({})
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {

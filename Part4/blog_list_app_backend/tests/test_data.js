@@ -1,3 +1,11 @@
+const initialUser = [
+    {
+        username: 'willem',
+        name: 'Willen van Oranje',
+        password: 'willem'
+    }
+]
+
 const listWithOneBlog = [
     {
         _id: '5a422aa71b54a676234d17f8',
@@ -16,6 +24,7 @@ const initialBlogs = [{ title: "React patterns", author: "Michael Chan", url: "h
 ]
 
 module.exports = {
+    initialUser,
     listWithOneBlog,
     listWithMoreBlogs,
     initialBlogs
