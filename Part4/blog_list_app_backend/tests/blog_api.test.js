@@ -10,48 +10,9 @@ const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 
-/*
-beforeAll(async () => {
-    await user.deleteMany({})
-
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash('willem', saltRounds)
-
-    const newUser = [
-        {
-            username: 'willem',
-            name: 'Willen van Oranje',
-            passwordHash
-        }
-    ]
-    let userObject = new user(newUser)
-    await userObject.save()
-})
-*/
 
 beforeEach(async () => {
-    
-    await user.deleteMany({})
-
-    const newUser = 
-        {
-            username: 'willem',
-            name: 'Willen van Oranje',
-            password: 'willem'
-        }
-        
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(newUser.password, saltRounds)
-        
-    const dbUser = {
-        username: newUser.username,
-        name: newUser.name,
-        passwordHash,
-    }
-    
-    let userObject = new user(dbUser)
-    await userObject.save()
-    
+           
     await blog.deleteMany({})
     let blogObject = new blog(blogData.initialBlogs[0])
     await blogObject.save()
@@ -101,21 +62,42 @@ describe('Making sure that data fetching works correctly', () => {
 })
 
 describe('We are able to post a valid new blog', () => {
-  
-    test('A valid blog post is saved to the DB', async () => {
-        //login
-        let token = null
-        const user = [{
+    let token = ""
+    beforeEach(async () => {
+        await user.deleteMany({})
+
+        /*
+        const newUser =
+        {
             username: 'willem',
+            name: 'Willen van Oranje',
             password: 'willem'
-        }]
+        }
+        */
+
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash('willem', saltRounds)
+
+        const dbUser = {
+            username: 'willem',
+            name: 'Willen van Oranje',
+            passwordHash,
+        }
+
+        let userObject = new user(dbUser)
+        await userObject.save()
 
         await api
-            .post('api/login')
-            .send(user)
+            .post('/api/login')
+            .send({ username: 'willem', password: 'willem' })
             .then((res) => {
                 return (token = res.body.token)
             })
+
+        return token
+    })
+
+    test('A valid blog post is saved to the DB', async () => {
 
         const newBlog = {
             title: 'Just a single blog',
@@ -148,6 +130,7 @@ describe('We are able to post a valid new blog', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -169,22 +152,33 @@ describe('We are able to post a valid new blog', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(400)
 
     })
-})
 
-describe('We are able to delete a blog', () => {
     test('Successfull deletion of blog', async () => {
 
-        const response = await api.get('/api/blogs').expect(200)
-        expect(response.body[0]).toHaveProperty('id')
+        const newBlog = {
+            title: 'Blog to be deleted',
+            author: 'van der Man',
+            url: 'http://www.google.com',
+            likes: 5
+        }
 
-        const blogToDelete = response.body[0]
+        await api
+            .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
+            .send(newBlog)
+
+        const response = await api.get('/api/blogs').expect(200)
+
+        const blogToDelete = response.body[2]
 
         await api
             .delete(`/api/blogs/${blogToDelete.id}`)
+            .set('Authorization', `Bearer ${token}`)
             .expect(204)
     })
 })
