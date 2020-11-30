@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('') 
     const [user, setUser] = useState(null)
+    const [notificationMessage, setNotificationMessage] = useState([])
     //these are used to create a new blog entry
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
@@ -32,11 +34,8 @@ const App = () => {
             )
             setUsername('')
             setPassword('')
-        } catch (error) {
-            console.log('Wrong credentials')
-            setTimeout(() => {
-                console.log('timeout')
-            }, 5000)
+        } catch (exception) {
+            handleNotificationMessage([`Wrong credentials`, 'error'])
         }
     }
 
@@ -58,6 +57,13 @@ const App = () => {
         setUrl(event.target.value)
     }
 
+    const handleNotificationMessage = (message) => {
+        const messageToShow = message[0]
+        const withClassName = message[1]
+        setNotificationMessage([messageToShow, withClassName])
+        setTimeout(() => { setNotificationMessage([]) }, 5000)
+    }
+
     const AddNewBlog = (event) => {
         event.preventDefault()
         const blogObject = {
@@ -70,9 +76,13 @@ const App = () => {
             .create(blogObject)
             .then(returnedBlog => {
                 setBlogs(blogs.concat(returnedBlog))
-                setUser('')
+                handleNotificationMessage([`${blogObject.title} successfully added`, 'notification'])
+                setTitle('')
                 setAuthor('')
                 setUrl('')
+            }).catch(error => {
+                handleNotificationMessage([`${error.response.data.error}`, 'error'])
+                console.log(error.response.data)
             })
     }
 
@@ -149,7 +159,8 @@ const App = () => {
 
     return (
         <div>
-          <h2>blogs</h2>
+            <h2>blogs</h2>
+            <Notification message={notificationMessage[0]} className={notificationMessage[1]} />
 
             {user === null ?
                 loginForm() :
