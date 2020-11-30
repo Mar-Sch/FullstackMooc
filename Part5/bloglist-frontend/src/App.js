@@ -8,6 +8,10 @@ const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('') 
     const [user, setUser] = useState(null)
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+    const [newBlog, setNewBlog] = useState('')
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -42,6 +46,11 @@ const App = () => {
         window.localStorage.removeItem('loggedBlogappUser')
     }
 
+    const handleAddNewBlog = (event) => {
+        event.preventDefault()
+        console.log('new blog added', title, author, url)
+    }
+
     const loginForm = () => (
         <form onSubmit={handleLogin}>
             <div>
@@ -65,6 +74,43 @@ const App = () => {
             <button type="submit">login</button>
         </form>
     )
+
+    const createNew = () => (
+        <div>
+        <h3>Create new</h3>
+        <form onSubmit={handleAddNewBlog}>
+            <div>
+                title
+                        <input
+                    type="text"
+                    value={title}
+                    name="title"
+                    onChange={({ target }) => setTitle(target.value)}
+                />
+            </div>
+            <div>
+                author
+                        <input
+                    type="text"
+                    value={author}
+                    name="author"
+                    onChange={({ target }) => setAuthor(target.value)}
+                />
+            </div>
+            <div>
+                url
+                        <input
+                    type="text"
+                    value={url}
+                    name="url"
+                    onChange={({ target }) => setUrl(target.value)}
+                />
+            </div>
+            <button type="submit">Create</button>
+            </form>
+        </div>
+        
+        )
 
     const blogList = () => (
         <div>
@@ -91,10 +137,12 @@ const App = () => {
                             {'logout'}
                         </button>                          
                     </p>
+                    {createNew()}
                     {blogList()}
                     </div>
             }
-
+            
+           
     </div>
   )
 }

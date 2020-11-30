@@ -20,7 +20,7 @@ const PersonForm = ({ addNew, newName, newPhoneNumber, handleNewNameChange, hand
                     />
                 </div>
                 <div>
-                    <button type="submit">add</button>
+                    <button type="submit">create</button>
                 </div>
             </form>
 
