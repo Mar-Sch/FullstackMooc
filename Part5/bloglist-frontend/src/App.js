@@ -12,11 +12,6 @@ const App = () => {
     const [password, setPassword] = useState('') 
     const [user, setUser] = useState(null)
     const [notificationMessage, setNotificationMessage] = useState([])
-    //these are used to create a new blog entry
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
-    const [blogFormVisible, setBlogFormVisible] = useState(false)
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -57,18 +52,6 @@ const App = () => {
         window.localStorage.removeItem('loggedBlogappUser')
     }
 
-    const handleNewTitle = (event) => {
-        setTitle(event.target.value)
-    }
-
-    const handleNewAuthor = (event) => {
-        setAuthor(event.target.value)
-    }
-
-    const handleNewUrl = (event) => {
-        setUrl(event.target.value)
-    }
-
     const handleNotificationMessage = (message) => {
         const messageToShow = message[0]
         const withClassName = message[1]
@@ -76,22 +59,12 @@ const App = () => {
         setTimeout(() => { setNotificationMessage([]) }, 5000)
     }
 
-    const AddNewBlog = (event) => {
-        event.preventDefault()
-        const blogObject = {
-            title: title,
-            author: author,
-            url: url,
-        }
-
+    const addNewBlog = (blogObject) => {
         blogService
             .create(blogObject)
             .then(returnedBlog => {
                 setBlogs(blogs.concat(returnedBlog))
                 handleNotificationMessage([`${blogObject.title} successfully added`, 'notification'])
-                setTitle('')
-                setAuthor('')
-                setUrl('')
             }).catch(error => {
                 handleNotificationMessage([`${error.response.data.error}`, 'error'])
                 console.log(error.response.data)
@@ -122,47 +95,11 @@ const App = () => {
         </form>
     )
 
-
     const blogForm = () => (
         <Togglable buttonLabel='new blog'>
-            <BlogForm
-                title={title}
-                author={author}
-                url={url}
-                handleNewTitle={handleNewTitle}
-                handleNewAuthor={handleNewAuthor}
-                handleNewUrl={handleNewUrl}
-                AddNewBlog={AddNewBlog}
-            />
+            <BlogForm AddNewBlog={addNewBlog}/>
         </Togglable>
-    )
-
-    /*
-    const bloForm = () => {
-        const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
-        const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
-
-        return (
-            <div>
-                <div style={hideWhenVisible}>
-                    <button onClick={() => setBlogFormVisible(true)}>new blog</button>
-                </div>
-                <div style={showWhenVisible}>
-                    <BlogForm
-                        title={title}
-                        author={author}
-                        url={url}
-                        handleNewTitle={handleNewTitle}
-                        handleNewAuthor={handleNewAuthor}
-                        handleNewUrl={handleNewUrl}
-                        AddNewBlog={AddNewBlog}
-                    />
-                    <button onClick={() => setBlogFormVisible(false)}>cancel</button>
-                </div>
-            </div>
-        )
-    }
-*/
+    )    
 
     const blogList = () => (
         <div>
