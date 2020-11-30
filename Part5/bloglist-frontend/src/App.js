@@ -8,10 +8,10 @@ const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('') 
     const [user, setUser] = useState(null)
+    //these are used to create a new blog entry
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
-    const [newBlog, setNewBlog] = useState('')
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -25,8 +25,8 @@ const App = () => {
             const user = await loginService.login({
                 username, password,
             })
+            blogService.setToken(user.token)
             setUser(user)
-            console.log('Login successful', user)
             window.localStorage.setItem(
                 'loggedBlogappUser', JSON.stringify(user)
             )
@@ -46,9 +46,34 @@ const App = () => {
         window.localStorage.removeItem('loggedBlogappUser')
     }
 
-    const handleAddNewBlog = (event) => {
+    const handleNewTitle = (event) => {
+        setTitle(event.target.value)
+    }
+
+    const handleNewAuthor = (event) => {
+        setAuthor(event.target.value)
+    }
+
+    const handleNewUrl = (event) => {
+        setUrl(event.target.value)
+    }
+
+    const AddNewBlog = (event) => {
         event.preventDefault()
-        console.log('new blog added', title, author, url)
+        const blogObject = {
+            title: title,
+            author: author,
+            url: url,
+        }
+
+        blogService
+            .create(blogObject)
+            .then(returnedBlog => {
+                setBlogs(blogs.concat(returnedBlog))
+                setUser('')
+                setAuthor('')
+                setUrl('')
+            })
     }
 
     const loginForm = () => (
@@ -78,14 +103,14 @@ const App = () => {
     const createNew = () => (
         <div>
         <h3>Create new</h3>
-        <form onSubmit={handleAddNewBlog}>
+        <form onSubmit={AddNewBlog}>
             <div>
                 title
                         <input
                     type="text"
                     value={title}
                     name="title"
-                    onChange={({ target }) => setTitle(target.value)}
+                        onChange={handleNewTitle}
                 />
             </div>
             <div>
@@ -94,7 +119,7 @@ const App = () => {
                     type="text"
                     value={author}
                     name="author"
-                    onChange={({ target }) => setAuthor(target.value)}
+                        onChange={handleNewAuthor}
                 />
             </div>
             <div>
@@ -103,7 +128,7 @@ const App = () => {
                     type="text"
                     value={url}
                     name="url"
-                    onChange={({ target }) => setUrl(target.value)}
+                        onChange={handleNewUrl}
                 />
             </div>
             <button type="submit">Create</button>
