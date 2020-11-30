@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -121,7 +122,23 @@ const App = () => {
         </form>
     )
 
-    const blogForm = () => {
+
+    const blogForm = () => (
+        <Togglable buttonLabel='new blog'>
+            <BlogForm
+                title={title}
+                author={author}
+                url={url}
+                handleNewTitle={handleNewTitle}
+                handleNewAuthor={handleNewAuthor}
+                handleNewUrl={handleNewUrl}
+                AddNewBlog={AddNewBlog}
+            />
+        </Togglable>
+    )
+
+    /*
+    const bloForm = () => {
         const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
         const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
 
@@ -144,8 +161,8 @@ const App = () => {
                 </div>
             </div>
         )
-
     }
+*/
 
     const blogList = () => (
         <div>
