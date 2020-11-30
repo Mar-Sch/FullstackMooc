@@ -36,6 +36,12 @@ const App = () => {
         }
     }
 
+    const handleLogout = async (event) => {
+        event.preventDefault()
+        setUser(null)
+        window.localStorage.removeItem('loggedBlogappUser')
+    }
+
     const loginForm = () => (
         <form onSubmit={handleLogin}>
             <div>
@@ -77,7 +83,14 @@ const App = () => {
             {user === null ?
                 loginForm() :
                 <div>
-                    <p>{user.name} logged-in</p>
+                    <p>
+                        {user.name} logged-in
+                        &nbsp;
+                        <button
+                            onClick={handleLogout}>
+                            {'logout'}
+                        </button>                          
+                    </p>
                     {blogList()}
                     </div>
             }
