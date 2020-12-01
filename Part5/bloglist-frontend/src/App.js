@@ -84,6 +84,17 @@ const App = () => {
             })
     }
 
+    const removeBlog = (id) => {
+        if (window.confirm("Do you really want to delete this blog?")) {
+            blogService
+                .remove(id)
+                .then(res => {
+                    setBlogs(blogs.filter(blog => blog.id !== id))
+                    console.log(res)
+                })
+        }
+    }       
+
     const loginForm = () => (
         <Togglable buttonLabel='login'>
             <LoginForm
@@ -106,7 +117,7 @@ const App = () => {
         <div>
             {
                 blogs.map(blog =>
-                    <Blog key={blog.id} blog={blog} updateLikes={updateBlog} />
+                    <Blog key={blog.id} blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
                 )
                 
             }
