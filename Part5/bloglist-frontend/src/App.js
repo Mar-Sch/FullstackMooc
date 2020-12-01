@@ -76,9 +76,8 @@ const App = () => {
 
     const updateBlog = (blogObject) => {
         blogService
-            .update('5fc349a7a3e3a253148a077d', blogObject)
-            .then(response => {
-                console.log(blogObject)
+            .update(blogObject.id, blogObject)
+            .then(response => {  
                 setBlogs(blogs.map(blog => blog.id !== blogObject.id ? blog : response.data))
             })
     }

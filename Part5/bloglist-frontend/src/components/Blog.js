@@ -16,7 +16,8 @@ const Blog = ({ blog, updateLikes }) => {
 
 
         let updatedObject = {
-            user: blog.key,
+            id: blog.id,
+            user: blog.user,
             likes: blog.likes +1,
             author: blog.author,
             title: blog.title,
