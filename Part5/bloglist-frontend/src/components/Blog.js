@@ -24,7 +24,13 @@ const Blog = ({ blog }) => {
             <div style={showWhenVisible}>
                 <p>{blog.title} {blog.author}</p>
                 <p>{blog.url}</p>
-                <p>{blog.likes}</p>
+                <p>{blog.likes}
+                    <button onClick={() => console.log('clicked')}>
+                        Like
+                        </button>
+                </p>
+
+
                 <button onClick={() => setVisible(false)}>hide</button>
             </div>
         </div>
