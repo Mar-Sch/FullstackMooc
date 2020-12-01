@@ -10,7 +10,7 @@ import Togglable from './components/Togglable'
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('') 
+    const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [notificationMessage, setNotificationMessage] = useState([])
     const blogFormRef = useRef()
@@ -46,7 +46,7 @@ const App = () => {
             setUsername('')
             setPassword('')
         } catch (exception) {
-            handleNotificationMessage([`Wrong credentials`, 'error'])
+            handleNotificationMessage(['Wrong credentials', 'error'])
         }
     }
 
@@ -79,13 +79,13 @@ const App = () => {
     const updateBlog = (blogObject) => {
         blogService
             .update(blogObject.id, blogObject)
-            .then(response => {  
+            .then(response => {
                 setBlogs(blogs.map(blog => blog.id !== blogObject.id ? blog : response.data))
             })
     }
 
     const removeBlog = (id) => {
-        if (window.confirm("Do you really want to delete this blog?")) {
+        if (window.confirm('Do you really want to delete this blog?')) {
             blogService
                 .remove(id)
                 .then(res => {
@@ -93,7 +93,7 @@ const App = () => {
                     console.log(res)
                 })
         }
-    }       
+    }
 
     const loginForm = () => (
         <Togglable buttonLabel='login'>
@@ -111,7 +111,7 @@ const App = () => {
         <Togglable buttonLabel='new blog' ref={blogFormRef}>
             <BlogForm AddNewBlog={addNewBlog}/>
         </Togglable>
-    )    
+    )
 
     const blogList = () => (
         <div>
@@ -119,7 +119,6 @@ const App = () => {
                 blogs.map(blog =>
                     <Blog key={blog.id} blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
                 )
-                
             }
         </div>
     )
@@ -138,16 +137,14 @@ const App = () => {
                         <button
                             onClick={handleLogout}>
                             {'logout'}
-                        </button>                          
+                        </button>
                     </p>
                     {blogForm()}
                     {blogList()}
-                    </div>
+                </div>
             }
-            
-           
-    </div>
-  )
+        </div>
+    )
 }
 
 export default App

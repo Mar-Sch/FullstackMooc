@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\src",
+    "\\src\\services"
   ],
-  "SelectedNode": "\\src\\App.js",
+  "SelectedNode": "\\.eslintignore",
   "PreviewInSolutionExplorer": false
 }

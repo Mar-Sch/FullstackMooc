@@ -15,16 +15,14 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
     const showWhenVisible = { display: visible ? '' : 'none' }
 
 
-        let updatedObject = {
-            id: blog.id,
-            user: blog.user,
-            likes: blog.likes +1,
-            author: blog.author,
-            title: blog.title,
-            url: blog.url
-        }
-
-   
+    let updatedObject = {
+        id: blog.id,
+        user: blog.user,
+        likes: blog.likes + 1,
+        author: blog.author,
+        title: blog.title,
+        url: blog.url
+    }
 
     return (
         <div style={blogStyle}>
@@ -40,19 +38,18 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
                 </p>
                 <p>{blog.url}</p>
                 <p>{blog.likes}
-                    <button onClick={() => updateLikes(updatedObject) }>
+                    <button onClick={() => updateLikes(updatedObject)}>
                         Like
-                        </button>
+                    </button>
                 </p>
                 <p>
                     <button onClick={() => removeBlog(updatedObject.id)}>
                         Remove
-                        </button>
+                    </button>
                 </p>
             </div>
         </div>
     )
 }
-
 
 export default Blog

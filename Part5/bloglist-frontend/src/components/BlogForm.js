@@ -30,14 +30,13 @@ const BlogForm = ({ AddNewBlog }) => {
         setUrl('')
     }
 
-
     return (
         <div>
             <h3>Create new</h3>
             <form onSubmit={addBlog}>
                 <div>
                     title
-                        <input
+                    <input
                         type="text"
                         value={title}
                         name="title"
@@ -46,7 +45,7 @@ const BlogForm = ({ AddNewBlog }) => {
                 </div>
                 <div>
                     author
-                        <input
+                    <input
                         type="text"
                         value={author}
                         name="author"
@@ -55,7 +54,7 @@ const BlogForm = ({ AddNewBlog }) => {
                 </div>
                 <div>
                     url
-                        <input
+                    <input
                         type="text"
                         value={url}
                         name="url"
