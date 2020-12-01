@@ -33,7 +33,11 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
                 <button onClick={() => setVisible(true)}>Show</button>
             </div>
             <div style={showWhenVisible}>
-                <p>{blog.title} {blog.author}</p>
+                <p>
+                    {blog.title}
+                    {blog.author}
+                    <button onClick={() => setVisible(false)}>hide</button>
+                </p>
                 <p>{blog.url}</p>
                 <p>{blog.likes}
                     <button onClick={() => updateLikes(updatedObject) }>
@@ -45,9 +49,6 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
                         Remove
                         </button>
                 </p>
-
-
-                <button onClick={() => setVisible(false)}>hide</button>
             </div>
         </div>
     )
