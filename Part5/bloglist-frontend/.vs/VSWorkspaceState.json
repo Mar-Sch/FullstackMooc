@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\services"
+    "\\src\\components"
   ],
-  "SelectedNode": "\\.eslintignore",
+  "SelectedNode": "\\src\\components\\BlogForm.test.js",
   "PreviewInSolutionExplorer": false
 }

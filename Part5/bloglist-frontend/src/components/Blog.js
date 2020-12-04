@@ -25,12 +25,12 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
     }
 
     return (
-        <div style={blogStyle}>
-            <div style={hideWhenVisible}>
+        <div style={blogStyle} >
+            <div style={hideWhenVisible} className="blog-collapse">
                 {blog.title} {blog.author}
                 <button onClick={() => setVisible(true)}>Show</button>
             </div>
-            <div style={showWhenVisible}>
+            <div style={showWhenVisible} className="blog-extended">
                 <p>
                     {blog.title}
                     {blog.author}
