@@ -115,6 +115,15 @@ describe('Blog app', function () {
             cy.contains('Second most liked blog').parent().contains(6)
                                    
         })
+
+        it.only('user can delete a blog', function () {
+            cy.contains('Second most liked blog')
+                .contains('Show').click()
+            cy.contains('Second most liked blog').parent().find('[data-cy=remove]').click()
+            cy.get('html').should('not.contain', 'Second most liked blog')
+            
+
+        })
     })
 
 })

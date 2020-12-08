@@ -37,10 +37,12 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
                
                 <p>{blog.url}</p>
                 <p>{blog.likes}
-                    <button onClick={() => updateLikes(updatedObject)} data-cy="like">Like</button>
+                    <button onClick={() => updateLikes(updatedObject)} data-cy="like">
+                        Like
+                    </button>
                 </p>
                 <p>
-                    <button onClick={() => removeBlog(updatedObject.id)}>
+                    <button onClick={() => removeBlog(updatedObject.id)} data-cy="remove">
                         Remove
                     </button>
                 </p>
