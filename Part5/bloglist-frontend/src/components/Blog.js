@@ -31,10 +31,10 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
                 <button onClick={() => setVisible(true)}>Show</button>
             </div>
             <div style={showWhenVisible} className="blog-extended">
-                
-                    {blog.title} {blog.author}
-                    <button onClick={() => setVisible(false)}>hide</button>
-               
+
+                {blog.title} {blog.author}
+                <button onClick={() => setVisible(false)}>hide</button>
+
                 <p>{blog.url}</p>
                 <p>{blog.likes}
                     <button onClick={() => updateLikes(updatedObject)} data-cy="like">

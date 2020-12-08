@@ -14,7 +14,7 @@ test('<BlogForm /> updates parent state and calls onSubmit', () => {
     const title = component.container.querySelector('#title')
     const url = component.container.querySelector('#url')
     const form = component.container.querySelector('form')
-         
+
     fireEvent.change(author, {
         target: { value: 'Mr complex' }
     }),

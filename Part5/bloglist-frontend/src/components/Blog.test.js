@@ -11,17 +11,17 @@ const blog = {
 }
 
 test('renders content', () => {
-    
+
     const component = render(
         <Blog blog={blog}/>
     )
 
-    const div = component.container.querySelector(".blog-collapse")
+    const div = component.container.querySelector('.blog-collapse')
 
     expect(div).toHaveTextContent(blog.title)
     expect(div).toHaveTextContent(blog.author)
     expect(div).not.toHaveTextContent(blog.url)
-    expect(div).not.toHaveProperty('likes', 1)    
+    expect(div).not.toHaveProperty('likes', 1)
 })
 
 test('Clicking show will render url and likes', () => {
@@ -33,7 +33,7 @@ test('Clicking show will render url and likes', () => {
     const button = component.getByText('Show')
     fireEvent.click(button)
 
-    const div = component.container.querySelector(".blog-extended")
+    const div = component.container.querySelector('.blog-extended')
 
     expect(div).toHaveTextContent(blog.title)
     expect(div).toHaveTextContent(blog.author)

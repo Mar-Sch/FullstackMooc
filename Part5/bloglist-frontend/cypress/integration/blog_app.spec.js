@@ -8,7 +8,6 @@ describe('Blog app', function () {
             password: 'secret'
         }
         cy.request('POST', 'http://localhost:3001/api/users/', user)
-        
     })
 
     it('front page can be opened and contains login form', function () {
@@ -79,30 +78,29 @@ describe('Blog app', function () {
 
         this.beforeEach(function () {
             const blog1 = {
-                title: "Most liked blog",
-                author: "Melady Popular",
-                url: "www.google.com",
+                title: 'Most liked blog',
+                author: 'Melady Popular',
+                url: 'www.google.com',
                 likes: 10
             }
 
             const blog2 = {
-                title: "Least liked blog",
-                author: "Mr Wannabe",
-                url: "www.google.com",
+                title: 'Least liked blog',
+                author: 'Mr Wannabe',
+                url: 'www.google.com',
                 likes: 2
             }
-            const blog3 = {             
-                title: "Second most liked blog",
-                author: "Mr Mediocre",
-                url: "www.google.com",
+            const blog3 = {
+                title: 'Second most liked blog',
+                author: 'Mr Mediocre',
+                url: 'www.google.com',
                 likes: 5
             }
             cy.login({ username: 'dhill', password: 'secret' })
-            cy.createBlog(blog1)            
+            cy.createBlog(blog1)
             cy.createBlog(blog2)
             cy.createBlog(blog3)
             cy.openMainPage()
-           
         })
 
         it('user can like a new blog', function () {
@@ -111,7 +109,6 @@ describe('Blog app', function () {
             cy.contains('Second most liked blog').parent().find('[data-cy=like]').click()
 
             cy.contains('Second most liked blog').parent().contains(6)
-                                   
         })
 
         it('user can delete a blog', function () {
@@ -132,22 +129,18 @@ describe('Blog app', function () {
             cy.login({ username: 'willem', password: 'willem' })
             cy.openMainPage()
 
-           
             cy.contains('Second most liked blog')
                 .contains('Show').click()
             cy.contains('Second most liked blog').parent().find('[data-cy=remove]').click()
             cy.contains('Second most liked blog')
-            
+
         })
 
         it('list is sorted correctly', function () {
             cy.get('.blog-collapse').first().contains('Most liked blog')
             cy.get('.blog-collapse').last().contains('Least liked blog')
         })
-
-
     })
-
 })
 
 
