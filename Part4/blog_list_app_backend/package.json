@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=test node index.js"
+    "start:test": "cross-env NODE_ENV=test node index.js"    
   },
   "author": "Marcos",
   "license": "ISC",
@@ -23,7 +23,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "jest": "^26.6.3",
     "nodemon": "^2.0.6",
     "supertest": "^6.0.1"

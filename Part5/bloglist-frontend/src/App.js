@@ -47,6 +47,8 @@ const App = () => {
             setPassword('')
         } catch (exception) {
             handleNotificationMessage(['Wrong credentials', 'error'])
+            setUsername('')
+            setPassword('')
         }
     }
 
@@ -108,7 +110,7 @@ const App = () => {
     )
 
     const blogForm = () => (
-        <Togglable buttonLabel='new blog' ref={blogFormRef}>
+        <Togglable  buttonLabel='new blog' ref={blogFormRef}>
             <BlogForm AddNewBlog={addNewBlog}/>
         </Togglable>
     )

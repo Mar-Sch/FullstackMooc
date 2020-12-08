@@ -32,8 +32,7 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
             </div>
             <div style={showWhenVisible} className="blog-extended">
                 <p>
-                    {blog.title}
-                    {blog.author}
+                    {blog.title} {blog.author}
                     <button onClick={() => setVisible(false)}>hide</button>
                 </p>
                 <p>{blog.url}</p>

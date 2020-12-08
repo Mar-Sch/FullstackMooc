@@ -1,9 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\cypress",
+    "\\cypress\\integration",
+    "\\cypress\\support",
     "\\src",
-    "\\src\\components"
+    "\\src\\components",
+    "\\src\\services"
   ],
-  "SelectedNode": "\\src\\components\\BlogForm.test.js",
+  "SelectedNode": "\\src\\components\\Blog.js",
   "PreviewInSolutionExplorer": false
 }
