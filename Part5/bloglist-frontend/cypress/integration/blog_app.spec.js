@@ -107,13 +107,13 @@ describe('Blog app', function () {
            
         })
 
-        it.only('user can like a new blog', function () {
-            cy.contains('Second most liked blog')
+        it('user can like a new blog', function () {
+            cy.contains('Most liked blog')
                 .contains('Show').click()
-            cy.contains('Like').click()
+            cy.contains('Most liked blog').parent().find('like').click()
+            //cy.contains('Like').click()
 
-            cy.contains('Second most liked blog')
-                .contains(6)
+
                        
         })
     })

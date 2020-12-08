@@ -24,6 +24,7 @@ Cypress.Commands.add('createBlog', ( blog ) => {
         body: {
             title: blog.title,
             author: blog.author,
+            url: blog.url,
             likes: blog.likes
         },
         headers: {
