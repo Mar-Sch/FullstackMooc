@@ -54,8 +54,6 @@ describe('Blog app', function () {
             cy.get('html').should('not.contain', 'Damon Hill logged-in')
         })
 
-
-
     })
 
     describe('Add new blog', function () {
@@ -88,16 +86,16 @@ describe('Blog app', function () {
             }
 
             const blog2 = {
-                title: "Second most liked blog",
-                author: "Mr Mediocre",
-                url: "www.google.com",
-                likes: 5
-            }
-            const blog3 = {
                 title: "Least liked blog",
                 author: "Mr Wannabe",
                 url: "www.google.com",
                 likes: 2
+            }
+            const blog3 = {             
+                title: "Second most liked blog",
+                author: "Mr Mediocre",
+                url: "www.google.com",
+                likes: 5
             }
             cy.login({ username: 'dhill', password: 'secret' })
             cy.createBlog(blog1)            
@@ -107,7 +105,7 @@ describe('Blog app', function () {
            
         })
 
-        it.only('user can like a new blog', function () {
+        it('user can like a new blog', function () {
             cy.contains('Second most liked blog')
                 .contains('Show').click()
             cy.contains('Second most liked blog').parent().find('[data-cy=like]').click()
@@ -116,14 +114,38 @@ describe('Blog app', function () {
                                    
         })
 
-        it.only('user can delete a blog', function () {
+        it('user can delete a blog', function () {
             cy.contains('Second most liked blog')
                 .contains('Show').click()
             cy.contains('Second most liked blog').parent().find('[data-cy=remove]').click()
             cy.get('html').should('not.contain', 'Second most liked blog')
-            
-
         })
+
+        it('user cannot delete some else blog', function () {
+            const user2 = {
+                name: 'Willem van Oranje',
+                username: 'willem',
+                password: 'willem'
+            }
+            cy.request('POST', 'http://localhost:3001/api/users/', user2)
+            cy.contains('logout').click
+            cy.login({ username: 'willem', password: 'willem' })
+            cy.openMainPage()
+
+           
+            cy.contains('Second most liked blog')
+                .contains('Show').click()
+            cy.contains('Second most liked blog').parent().find('[data-cy=remove]').click()
+            cy.contains('Second most liked blog')
+            
+        })
+
+        it('list is sorted correctly', function () {
+            cy.get('.blog-collapse').first().contains('Most liked blog')
+            cy.get('.blog-collapse').last().contains('Least liked blog')
+        })
+
+
     })
 
 })
