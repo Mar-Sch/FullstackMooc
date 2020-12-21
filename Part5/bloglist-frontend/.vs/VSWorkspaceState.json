@@ -3,11 +3,12 @@
     "",
     "\\cypress",
     "\\cypress\\integration",
+    "\\cypress\\plugins",
     "\\cypress\\support",
     "\\src",
     "\\src\\components",
     "\\src\\services"
   ],
-  "SelectedNode": "\\src\\components\\Blog.test.js",
+  "SelectedNode": "\\cypress\\plugins\\index.js",
   "PreviewInSolutionExplorer": false
 }
