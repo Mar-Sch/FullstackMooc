@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, useParams
 } from "react-router-dom"
 
 const Menu = () => {
@@ -29,6 +29,16 @@ const AnecdoteList = ({ anecdotes }) => (
     </ul>
   </div>
 )
+
+const Anecdote = ({anecdotes}) => {
+  const id = useParams().id
+  const anecdote = anecdotes.find(a => a.id === id)
+  return (
+    <div>
+      {anecdote.content}
+    </div>
+  )
+} 
 
 const About = () => (
   <div>
@@ -137,6 +147,9 @@ const App = () => {
         <Menu />
 
         <Switch>
+          <Route path="/anecdotes/:id">
+          <Anecdote anecdotes={anecdotes} />
+          </Route>
           <Route path="/anecdotes">
             <AnecdoteList anecdotes={anecdotes} />
           </Route>
