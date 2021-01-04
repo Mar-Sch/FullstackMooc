@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route, Link, useParams, useHistory
 } from "react-router-dom"
 
 const Menu = () => {
@@ -35,7 +35,7 @@ const Anecdote = ({anecdotes}) => {
   const anecdote = anecdotes.find(a => a.id === id)
   return (
     <div>
-      {anecdote.content}
+      <h2>{anecdote.content}</h2>
     </div>
   )
 } 
@@ -67,6 +67,8 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const history = useHistory()
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -76,6 +78,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    history.push('/anecdotes')
   }
 
   return (
