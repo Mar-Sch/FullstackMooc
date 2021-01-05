@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
+import { Button } from 'react-bootstrap'
 
 const Blog = ({ blog, updateLikes, removeBlog }) => {
-    const blogStyle = {
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: 'solid',
-        borderWidth: 1,
-        marginBottom: 5
-    }
 
     const [visible, setVisible] = useState(false)
 
@@ -25,26 +19,27 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
     }
 
     return (
-        <div style={blogStyle} >
+        <div>
             <div style={hideWhenVisible} className="blog-collapse">
-                {blog.title} {blog.author}
-                <button onClick={() => setVisible(true)}>Show</button>
+                <td>{blog.title}</td>
+                <td>{blog.author}</td>
+                <td><Button variant="secondary" onClick={() => setVisible(true)}>Show</Button></td>
             </div>
             <div style={showWhenVisible} className="blog-extended">
 
                 {blog.title} {blog.author}
-                <button onClick={() => setVisible(false)}>hide</button>
+                <Button variant="secondary" onClick={() => setVisible(false)}>hide</Button>
 
                 <p>{blog.url}</p>
                 <p>{blog.likes}
-                    <button onClick={() => updateLikes(updatedObject)} data-cy="like">
+                    <Button variant="success" onClick={() => updateLikes(updatedObject)} data-cy="like">
                         Like
-                    </button>
+                    </Button>
                 </p>
                 <p>
-                    <button onClick={() => removeBlog(updatedObject.id)} data-cy="remove">
+                    <Button variant="danger" onClick={() => removeBlog(updatedObject.id)} data-cy="remove">
                         Remove
-                    </button>
+                    </Button>
                 </p>
             </div>
         </div>

@@ -9,6 +9,7 @@ import Togglable from './components/Togglable'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Menu from './components/Menu'
 import About from './components/About'
+import { Table, Button } from 'react-bootstrap'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -119,33 +120,56 @@ const App = () => {
     )
 
     const blogList = () => (
+        <Table striped bordered>
+            <tbody>
+                {
+                    blogs.map(blog =>
+                        <Blog key={blog.id} blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
+                    )
+                }
+            </tbody>
+        </Table>
+    )
+
+    /*
+    const blogList = () => (
         <div>
             {
                 blogs.map(blog =>
                     <Blog key={blog.id} blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
                 )
             }
+                {
+                    blogs.map(blog =>
+                        <tr key={blog.id}>
+                            <Blog blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
+                        </tr>
+                    )
+                }
+
+
         </div>
     )
+    */
 
     return (
         <Router>
             <div className="container">
+                <Menu />
                 <h2>Blogs</h2>
                 <Notification message={notificationMessage[0]} className={notificationMessage[1]} />
 
                 {user === null ?
                     loginForm() :
                     <div>
-                        <p>
+                        <em>
                             {user.name} logged-in
                         &nbsp;
-                            <button
+                            <Button variant="dark"
                                 onClick={handleLogout}>
                                 {'logout'}
-                            </button>
-                        </p>
-                        <Menu />
+                            </Button>
+                        </em>
                         <Switch>
                             <Route path="/blogs">
                                 {blogForm()}
