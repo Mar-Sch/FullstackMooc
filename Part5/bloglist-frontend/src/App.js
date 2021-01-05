@@ -6,6 +6,9 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Menu from './components/Menu'
+import About from './components/About'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -126,26 +129,36 @@ const App = () => {
     )
 
     return (
-        <div>
-            <h2>blogs</h2>
-            <Notification message={notificationMessage[0]} className={notificationMessage[1]} />
+        <Router>
+            <div className="container">
+                <h2>Blogs</h2>
+                <Notification message={notificationMessage[0]} className={notificationMessage[1]} />
 
-            {user === null ?
-                loginForm() :
-                <div>
-                    <p>
-                        {user.name} logged-in
+                {user === null ?
+                    loginForm() :
+                    <div>
+                        <p>
+                            {user.name} logged-in
                         &nbsp;
-                        <button
-                            onClick={handleLogout}>
-                            {'logout'}
-                        </button>
-                    </p>
-                    {blogForm()}
-                    {blogList()}
-                </div>
-            }
-        </div>
+                            <button
+                                onClick={handleLogout}>
+                                {'logout'}
+                            </button>
+                        </p>
+                        <Menu />
+                        <Switch>
+                            <Route path="/blogs">
+                                {blogForm()}
+                                {blogList()}
+                            </Route>
+                            <Route path="/about">
+                                <About />
+                            </Route>
+                        </Switch>
+                    </div>
+                }
+            </div>
+        </Router>
     )
 }
 
