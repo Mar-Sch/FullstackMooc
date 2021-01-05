@@ -89,6 +89,12 @@ const CreateNew = (props) => {
     history.push('/anecdotes')
   }
 
+  const reset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -107,9 +113,11 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={reset}>
+        reset
+      </button> 
     </div>
   )
-
 }
 
 const Notification = ({ message }) => {
