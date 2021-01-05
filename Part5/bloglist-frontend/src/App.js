@@ -124,33 +124,14 @@ const App = () => {
             <tbody>
                 {
                     blogs.map(blog =>
-                        <Blog key={blog.id} blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
-                    )
-                }
-            </tbody>
-        </Table>
-    )
-
-    /*
-    const blogList = () => (
-        <div>
-            {
-                blogs.map(blog =>
-                    <Blog key={blog.id} blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
-                )
-            }
-                {
-                    blogs.map(blog =>
                         <tr key={blog.id}>
                             <Blog blog={blog} updateLikes={updateBlog} removeBlog={removeBlog} />
                         </tr>
                     )
                 }
-
-
-        </div>
+            </tbody>
+        </Table>
     )
-    */
 
     return (
         <Router>
