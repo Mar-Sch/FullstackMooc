@@ -164,8 +164,10 @@ const App = () => {
     }, 10000)
   }
 
+  /*
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
+
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -177,6 +179,7 @@ const App = () => {
 
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
+  */
 
   return (
     <Router>
